@@ -1,15 +1,19 @@
 package com.Cafe.CafeManagement.POJO;
 
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
+
 //@NamedQuery(name = "User.findByEmail", query = "select u from user u where u.email =: email")
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user")
 @DynamicInsert
 @DynamicUpdate

@@ -28,4 +28,15 @@ public class UserController {
         }
         return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody(required = true) Map<String, String> request){
+        try {
+            return userService.login(request);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.BAD_REQUEST);
+    }
 }

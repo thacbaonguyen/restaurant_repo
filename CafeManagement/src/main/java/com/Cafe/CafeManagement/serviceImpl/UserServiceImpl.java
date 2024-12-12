@@ -2,11 +2,15 @@ package com.Cafe.CafeManagement.serviceImpl;
 
 import com.Cafe.CafeManagement.DAO.UserRepository;
 import com.Cafe.CafeManagement.JWT.CustomUserDetailsService;
+import com.Cafe.CafeManagement.JWT.JwtFilter;
 import com.Cafe.CafeManagement.JWT.JwtUtils;
 import com.Cafe.CafeManagement.POJO.User;
 import com.Cafe.CafeManagement.constants.CafeConstants;
+import com.Cafe.CafeManagement.modelMapper.ModelMapperConfig;
 import com.Cafe.CafeManagement.service.UserService;
 import com.Cafe.CafeManagement.utils.CafeResponse;
+import com.Cafe.CafeManagement.wrapper.UserWrapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 @Service
@@ -28,6 +34,12 @@ public class UserServiceImpl implements UserService {
     CustomUserDetailsService customUserDetailsService;
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    JwtFilter jwtFilter;
+
+    @Autowired
+    private ModelMapper modelMapper;
     @Override
     public ResponseEntity<String> signUp(Map<String, String> request) {
         try {
@@ -61,6 +73,7 @@ public class UserServiceImpl implements UserService {
                     String token = jwtUtils.generateToken(userName, role);
                     return new ResponseEntity<>("token:" + token, HttpStatus.OK);
                 }
+                return new ResponseEntity<>("This account is non active", HttpStatus.FORBIDDEN);
             }
             return new ResponseEntity<>("Permission", HttpStatus.FORBIDDEN);
         }
@@ -68,6 +81,49 @@ public class UserServiceImpl implements UserService {
             ex.printStackTrace();
         }
         return new ResponseEntity<>("Bad credentials", HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<List<UserWrapper>> getAllUser() {
+        try {
+            if(jwtFilter.isAdmin()){
+                List<User> users = userRepository.findAll();
+                List<UserWrapper> userWrappers = new ArrayList<>();
+                for(User item : users){
+                    if(!item.getRole().equalsIgnoreCase("admin")) {
+                        userWrappers.add(modelMapper.map(item, UserWrapper.class));
+                    }
+                }
+                return new ResponseEntity<>(userWrappers, HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> request) {
+        try {
+            User user = userRepository.findByEmail(jwtFilter.getCurrentUser());
+            if(!user.equals(null)){
+                if(user.getPassword().equals(request.get("oldPassword"))){
+                    user.setPassword(request.get("newPassword"));
+                    userRepository.save(user);
+                    return CafeResponse.getResponseEntity("Update password successfully", HttpStatus.OK);
+                }
+                return CafeResponse.getResponseEntity("Incorrect password", HttpStatus.BAD_REQUEST);
+            }
+            return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private boolean validateUser(Map<String, String> request){

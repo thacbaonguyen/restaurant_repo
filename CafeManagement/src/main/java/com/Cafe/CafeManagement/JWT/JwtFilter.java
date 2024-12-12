@@ -1,5 +1,6 @@
 package com.Cafe.CafeManagement.JWT;
 
+import com.Cafe.CafeManagement.POJO.User;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,10 @@ public class JwtFilter extends OncePerRequestFilter {
     }
     public boolean isUser(){
         return "user".equalsIgnoreCase((String) claims.get("role"));
+    }
+
+    public String getCurrentUser(){
+        return userName;
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

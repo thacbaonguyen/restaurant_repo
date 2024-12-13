@@ -38,7 +38,7 @@ public class BillServiceImpl implements BillService {
                     fileName = (String) request.get("uuid");
                 }
                 else {
-                    fileName = CafeUtils.generateUUID();
+                    fileName = CafeUtils.generateUUID() + jwtFilter.getCurrentUser();
                     request.put("uuid", fileName);
                     insertBill(request);
                 }

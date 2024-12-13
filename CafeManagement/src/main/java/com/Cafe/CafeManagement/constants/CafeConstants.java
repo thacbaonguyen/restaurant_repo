@@ -7,4 +7,6 @@ public class CafeConstants {
     public static final String INVALID_DATA = "Invalid data!";
 
     public static final String UN_AUTHORIZED = "UnAuthorized!";
+
+    public static final String LOCATION = "C:\\spring\\CafeManagement\\CafeManagement";
 }

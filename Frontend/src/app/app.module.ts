@@ -16,6 +16,7 @@ import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, SPINNER } from 'ngx-ui-loader';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const ngUxLoaderConfig: NgxUiLoaderConfig = {
   text: 'Chờ xíu, đang tải',
@@ -37,6 +38,7 @@ const ngUxLoaderConfig: NgxUiLoaderConfig = {
     AppHeaderComponent,
     AppSidebarComponent,
     SignupComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,

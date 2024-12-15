@@ -1,0 +1,86 @@
+
+<mat-toolbar class="custom-color2">
+  <mat-toolbar-row fxLayout="row">
+    <span>Signup</span>
+    <span class="spacer"></span>
+    <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="signupForm">
+    <div fxFlex fxLayout="column">
+      <mat-form-field appearance="standard" fxFlex>
+        <mat-label>Họ và tên</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="signupForm.controls.name.touched && signupForm.controls.name.invalid">
+          <span *ngIf="signupForm.controls.name.errors.required">Dòng này là bắt buộc.</span>
+          <span *ngIf="signupForm.controls.name.errors.pattern">Dữ liệu không hợp lệ.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="standard" fxFlex>
+        <mat-label>Số điện thoại</mat-label>
+        <input matInput formControlName="contactNumber" required>
+        <mat-error *ngIf="signupForm.controls.contactNumber.touched && signupForm.controls.contactNumber.invalid">
+          <span *ngIf="signupForm.controls.contactNumber.errors.required">Dòng này là bắt buộc.</span>
+          <span *ngIf="signupForm.controls.contactNumber.errors.pattern">Số điện thoại chưa đúng định dạng.</span>
+        </mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="standard" fxFlex>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required>
+        <mat-error *ngIf="signupForm.controls.email.touched && signupForm.controls.email.invalid">
+          <span *ngIf="signupForm.controls.email.errors.required">Dòng này là bắt buộc.</span>
+          <span *ngIf="signupForm.controls.email.errors.pattern">Email không đúng định dạng.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="standard" fxFlex>
+        <mat-label>Mật khẩu</mat-label>
+        <input matInput 
+         [type]="passwordShow ? 'password' : 'text'" formControlName="password" required>
+  <button mat-icon-button matSuffix (click)="passwordShow = !passwordShow" 
+          [attr.aria-label]="'Toggle password visibility'"
+          [attr.aria-pressed]="!passwordShow">
+    <mat-icon>{{ passwordShow ? 'visibility_off' : 'visibility' }}</mat-icon>
+  </button>
+        <mat-error *ngIf="signupForm.controls.password.touched && signupForm.controls.password.invalid">
+          <span *ngIf="signupForm.controls.password.errors.required">Dòng này là bắt buộc.</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="standard" fxFlex>
+        <mat-label>Nhập lại mật khẩu</mat-label>
+        <input matInput 
+         [type]="retypePasswordShow ? 'password' : 'text'" formControlName="retypePassword" required>
+  <button mat-icon-button matSuffix (click)="retypePasswordShow = !retypePasswordShow" 
+          [attr.aria-label]="'Toggle password visibility'"
+          [attr.aria-pressed]="!retypePasswordShow">
+    <mat-icon>{{ retypePasswordShow ? 'visibility_off' : 'visibility' }}</mat-icon>
+  </button>
+        <mat-error *ngIf="signupForm.controls.retypePassword.touched && signupForm.controls.retypePassword.invalid">
+          <span *ngIf="signupForm.controls.retypePassword.errors.required">Dòng này là bắt buộc.</span>
+        </mat-error>
+        <mat-hint *ngIf="validateSubmit() && !(signupForm.controls.retypePassword.invalid)">
+          <span class="password-not-match">Password does not match.</span>
+        </mat-hint>
+      </mat-form-field>
+
+
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button class="custom-color" type="submit" (click)="handleSubmit()" [disabled]="validateSubmit() || !(signupForm.valid && signupForm.dirty)" >
+    <mat-icon>send</mat-icon>
+  </button>
+  <button mat-raised-button class="cancel-button" mat-dialog-close="">
+    Đóng
+  </button>
+</mat-dialog-actions>

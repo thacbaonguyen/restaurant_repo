@@ -1,0 +1,19 @@
+.custom-color {
+    background-color: #4caf50; /* Màu xanh lá cây */
+    color: white; /* Màu chữ trắng */
+  }
+  .cancel-button {
+    background-color: #f44336; /* Màu đỏ */
+    color: white;  /* Chữ màu trắng */
+    border: none; /* Bỏ đường viền nếu có */
+  }
+  
+  .cancel-button:hover {
+    background-color: #d32f2f; /* Đổi màu khi hover */
+  }
+  .custom-color2{
+    background-color:  #618BFE;
+  }
+  .password-not-match{
+    color: #d32f2f;
+  }

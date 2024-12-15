@@ -10,7 +10,7 @@ public class CafeResponse {
 
     }
     public static ResponseEntity<String> getResponseEntity(String response, HttpStatus httpStatus){
-        return new ResponseEntity<String>(response, httpStatus);
+        return new ResponseEntity<String>("{\"message\":\""+response+"\"}", httpStatus);
     }
 
 }

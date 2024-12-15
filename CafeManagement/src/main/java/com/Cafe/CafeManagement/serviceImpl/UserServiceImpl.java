@@ -48,9 +48,8 @@ public class UserServiceImpl implements UserService {
                 if(Objects.isNull(user)){
                     userRepository.save(mapUser(request));
                     return CafeResponse.getResponseEntity(CafeConstants.CREATE_SUCCESSFULLY, HttpStatus.OK);
-
                 }
-                return CafeResponse.getResponseEntity(CafeConstants.EXISTING, HttpStatus.BAD_REQUEST);
+                return CafeResponse.getResponseEntity(CafeConstants.EXISTING, HttpStatus.CONFLICT);
             }
             return CafeResponse.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
         }
@@ -127,13 +126,13 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean validateUser(Map<String, String> request){
-        return request.containsKey("name") && request.containsKey("email") && request.containsKey("phoneNumber")
+        return request.containsKey("name") && request.containsKey("email") && request.containsKey("contactNumber")
                 && request.containsKey("password");
     }
     private User mapUser(Map<String, String> request){
         return User.builder().name(request.get("name"))
                 .email(request.get("email"))
-                .phoneNumber(request.get("phoneNumber"))
+                .phoneNumber(request.get("contactNumber"))
                 .password(request.get("password"))
                 .role("user")
                 .status("false")

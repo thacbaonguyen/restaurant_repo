@@ -1,1 +1,100 @@
-<h1>Hello</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Mỗi dòng có 2 thẻ */
+            gap: 20px; /* Khoảng cách giữa các thẻ */
+            width: 80%;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .card span {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .card:nth-child(1) { background-color: #f0f8ff; }
+        .card:nth-child(2) { background-color: #ffe4e1; }
+        .card:nth-child(3) { background-color: #f5f5dc; }
+        .card:nth-child(4) { background-color: #e6e6fa; }
+        .button-dashboard {
+        background-color: #007bff; 
+        color: white;
+        border: none; 
+        border-radius: 8px;
+        padding: 10px 10px;
+        font-size: 13px; 
+        font-weight: bold; 
+        cursor: pointer; 
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .button-dashboard:hover {
+        background-color: #0056b3; /* Đổi màu nền khi hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo hiệu ứng bóng */
+        transform: scale(1.05); /* Phóng to nhẹ nút */
+    }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="card">
+            <h3>Product</h3>
+            <span>Total: {{data?.product}}</span>
+            <p><button class="button-dashboard" routerLink="/cafe/product">View</button></p>
+        </div>
+
+        <div class="card">
+            <h3>Category</h3>
+            <span>Total Categories: {{data?.category}}</span>
+            <p><button class="button-dashboard" routerLink="/cafe/category">View</button></p>
+        </div>
+
+        <div class="card">
+            <h3>Bill</h3>
+            <span>Total Bills: {{data?.bill}}</span>
+            <p><button class="button-dashboard" routerLink="/cafe/bill">View</button></p>
+        </div>
+
+        <div class="card">
+            <h3>Placeholder</h3>
+            <span>Future Section</span>
+        </div>
+    </div>
+</body>
+</html>

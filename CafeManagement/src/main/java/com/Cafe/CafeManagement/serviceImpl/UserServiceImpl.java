@@ -130,6 +130,11 @@ public class UserServiceImpl implements UserService {
         return CafeResponse.getResponseEntity("Send successfully, please check your email!", HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return CafeResponse.getResponseEntity("check done", HttpStatus.OK);
+    }
+
     private boolean validateUser(Map<String, String> request){
         return request.containsKey("name") && request.containsKey("email") && request.containsKey("contactNumber")
                 && request.containsKey("password");

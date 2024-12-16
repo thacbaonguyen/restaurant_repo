@@ -12,4 +12,6 @@ export class GlobalConstant {
 
   // variable
   public static error: string = 'error';
+
+  public static unauthorized: string = "Bạn không có quyền truy cập mục này!";
 }

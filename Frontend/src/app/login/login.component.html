@@ -1,0 +1,48 @@
+<mat-toolbar class="custom-color2">
+    <mat-toolbar-row fxLayout="row">
+        <span>Login</span>
+        <span class="spacer"></span>
+        <button class="mat-dialog-close" mat-dialog-close="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="loginForm">
+        <div fxFlex fxLayout="column">
+            <mat-form-field appearance="standard">
+                <mat-label>Email</mat-label>
+                <input formControlName="email" required="" matInput>
+                <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+                    <span *ngIf="loginForm.controls.email.errors.required">Bạn chưa nhập email</span>
+                    <span *ngIf="loginForm.controls.email.errors.pattern">Email chưa đúng định dạng</span>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard">
+                <mat-label>Mật khẩu</mat-label>
+                <input matInput formControlName="password" required=""
+                [type]="hidePassword ? 'password' : 'text'"
+                >
+                <button mat-icon-button (click)="hidePassword =!hidePassword" matSuffix
+                [attr.aria-label]="'Toggle password visibility'"
+                [attr.aria-pressed]="!hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+                    <span *ngIf="loginForm.controls.password.errors.required">Bạn chưa nhập mật khẩu</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button class="custom-color" mat-raised-button type="submit" (click)="handleSubmit()" [disabled]="!loginForm.valid || !loginForm.dirty">
+        <mat-icon>send</mat-icon>
+    </button>
+    <button mat-raised-button mat-dialog-close class="cancel-button">
+        Đóng
+    </button>
+</mat-dialog-actions>

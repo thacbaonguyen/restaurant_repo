@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                     userRepository.save(mapUser(request));
                     return CafeResponse.getResponseEntity(CafeConstants.CREATE_SUCCESSFULLY, HttpStatus.OK);
                 }
-                return CafeResponse.getResponseEntity(CafeConstants.EXISTING, HttpStatus.CONFLICT);
+                return CafeResponse.getResponseEntity("This user does existing!", HttpStatus.CONFLICT);
             }
             return CafeResponse.getResponseEntity(CafeConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
         }
@@ -70,16 +70,16 @@ public class UserServiceImpl implements UserService {
                     String userName = customUserDetailsService.getUserDetails().getEmail();
                     String role = customUserDetailsService.getUserDetails().getRole();
                     String token = jwtUtils.generateToken(userName, role);
-                    return new ResponseEntity<>("token:" + token, HttpStatus.OK);
+                    return new ResponseEntity<>("{\"token\":\"" + token + "\"}", HttpStatus.OK);
                 }
-                return new ResponseEntity<>("This account is non active", HttpStatus.FORBIDDEN);
+                return CafeResponse.getResponseEntity("This account is non active", HttpStatus.FORBIDDEN);
             }
-            return new ResponseEntity<>("Permission", HttpStatus.FORBIDDEN);
+            return CafeResponse.getResponseEntity("Permission", HttpStatus.FORBIDDEN);
         }
         catch (Exception ex){
             ex.printStackTrace();
         }
-        return new ResponseEntity<>("Bad credentials", HttpStatus.BAD_REQUEST);
+        return CafeResponse.getResponseEntity("Bad credentials", HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -123,6 +123,11 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> forgotPassword(Map<String, String> request) {
+        return CafeResponse.getResponseEntity("Send successfully, please check your email!", HttpStatus.OK);
     }
 
     private boolean validateUser(Map<String, String> request){

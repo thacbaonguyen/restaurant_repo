@@ -12,4 +12,5 @@ public interface UserService {
     ResponseEntity<List<UserWrapper>> getAllUser();
 
     ResponseEntity<String> changePassword(Map<String, String> request);
+    ResponseEntity<String> forgotPassword(Map<String, String> request);
 }

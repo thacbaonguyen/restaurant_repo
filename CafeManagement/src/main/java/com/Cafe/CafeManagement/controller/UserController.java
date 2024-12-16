@@ -61,4 +61,15 @@ public class UserController {
         }
         return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<String> forgotPassword(@RequestBody(required = true) Map<String, String> request){
+        try {
+            return userService.forgotPassword(request);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

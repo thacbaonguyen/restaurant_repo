@@ -40,7 +40,7 @@ public class CategoryController {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     public ResponseEntity<String> updateCategory(@RequestBody(required = true) Map<String, String> request){
         try {
             return categoryService.updateCategory(request);

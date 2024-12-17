@@ -60,8 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
                 if (validateCategory(request) && request.containsKey("id")){
                     Optional<Category> category = categoryRepository.findById(Integer.parseInt(request.get("id")));
                     if (!category.isEmpty()){
-                        category.get().setName(request.get("name"));
-                        categoryRepository.save(category.get());
+                        categoryRepository.updateCategoryNameById(Integer.parseInt(request.get("id")), request.get("name"));
                         return CafeResponse.getResponseEntity("Update category successfully!", HttpStatus.OK);
                     }
                     return CafeResponse.getResponseEntity("This category does existed", HttpStatus.BAD_REQUEST);

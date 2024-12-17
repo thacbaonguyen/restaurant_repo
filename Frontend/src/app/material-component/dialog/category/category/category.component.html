@@ -1,0 +1,30 @@
+<mat-toolbar>
+    <mat-toolbar-row fxLayout="row">
+        <span>{{matDialogData.action}}</span>
+        <span class="spacer"></span>
+        <button mat-dialog-close="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="categoryForm">
+        <div fxFlex fxLayout="column">
+            <mat-form-field appearance="standard">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required="">
+                <mat-error *ngIf="categoryForm.controls.name.touched && categoryForm.controls.name.invalid">
+                    <span *ngIf="categoryForm.controls.name.errors.required">Không được để trống</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button type="submit" (click)="handleSubmit()" [disabled]="!categoryForm.valid">
+        <mat-icon>send</mat-icon>
+    </button>
+    <button mat-raised-button mat-dialog-close="">Đóng</button>
+</mat-dialog-actions>

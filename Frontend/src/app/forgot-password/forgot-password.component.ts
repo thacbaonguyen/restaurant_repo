@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SnackbarService } from '../services/snackbar.service';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user/user.service';
 import { GlobalConstant } from '../shared/accordion/global-constanst';
 import { error } from 'console';
 

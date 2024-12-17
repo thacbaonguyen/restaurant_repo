@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SignupComponent } from '../signup/signup.component';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { LoginComponent } from '../login/login.component';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 @Component({

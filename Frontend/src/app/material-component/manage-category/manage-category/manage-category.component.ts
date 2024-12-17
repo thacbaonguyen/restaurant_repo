@@ -54,11 +54,11 @@ export class ManageCategoryComponent implements OnInit {
     const filterValue =(event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim();
   }
-  handleEditAction(values:any){
+  handleEditAction(value:any){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       action: 'Edit',
-      data:values
+      data:value
     };
     dialogConfig.width = '800px';
     const dialogRef = this.matDialog.open(CategoryComponent, dialogConfig);

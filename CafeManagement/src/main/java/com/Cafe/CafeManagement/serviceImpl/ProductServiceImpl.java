@@ -145,6 +145,25 @@ public class ProductServiceImpl implements ProductService {
         return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> updateStatus(Map<String, String> request) {
+        try {
+            if(jwtFilter.isAdmin()){
+                Optional<Product> product = productRepository.findById(Integer.parseInt(request.get("id")));
+                if(!Objects.isNull(product.get())){
+                    productRepository.updateStatus(Integer.parseInt(request.get("id")), request.get("status"));
+                    return CafeResponse.getResponseEntity("Update successfully", HttpStatus.OK);
+                }
+                return CafeResponse.getResponseEntity("This product does not exist", HttpStatus.CONFLICT);
+            }
+            return CafeResponse.getResponseEntity(CafeConstants.UN_AUTHORIZED, HttpStatus.UNAUTHORIZED);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private boolean validateProductMap(Map<String, String> request){
         return request.containsKey("name") && request.containsKey("price");
     }

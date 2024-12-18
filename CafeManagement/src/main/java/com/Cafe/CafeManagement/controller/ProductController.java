@@ -52,6 +52,17 @@ public class ProductController {
         return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PutMapping("/updateStatus")
+    public ResponseEntity<String> updateStatus(@RequestBody Map<String, String> request){
+        try {
+            return productService.updateStatus(request);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return CafeResponse.getResponseEntity(CafeConstants.SOME_THING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id){
         try {

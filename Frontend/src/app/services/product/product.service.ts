@@ -24,4 +24,8 @@ export class ProductService {
   deleteProduct(id: any){
     return this.httpClient.delete(this.url + "/product/delete/" + id, {headers: new HttpHeaders().set('Content-Type', 'application/json')})
   }
+
+  updateStatus(data:any){
+    return this.httpClient.put(this.url + "/product/updateStatus", data, {headers: new HttpHeaders().set('Content-Type', 'application/json')})
+  }
 }

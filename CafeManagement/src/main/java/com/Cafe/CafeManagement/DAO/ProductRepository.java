@@ -20,4 +20,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             " category_fk =:categoryId WHERE id = :id", nativeQuery = true)
     void updateProduct(@Param("id") int id, @Param("name") String name, @Param("description") String description,
                        @Param("price") Long price, @Param("categoryId") int categoryId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE product set status =:status where id =:id", nativeQuery = true)
+    void updateStatus(@Param("id") Integer id, @Param("status") String status);
 }

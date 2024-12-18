@@ -1,0 +1,63 @@
+<mat-toolbar>
+    <mat-toolbar-row fxFlex fxLayout="row">
+        <span>{{matDialogData.action}} Product</span>
+        <span class="spacer"></span>
+        <button mat-dialog-close="" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content>
+    <form [formGroup]="productForm">
+        <div fxLayout="column" fxFlex>
+            <div fxLayout="row wrap">
+                <mat-form-field appearance="standard" style="margin-top: 10px;" fxFlex>
+                <mat-label>Tên sản phẩm</mat-label>
+                <input matInput formControlName="name" required="">
+                <mat-error *ngIf="productForm.controls.name.touched && productForm.controls.name.invalid">
+                    <span *ngIf="productForm.controls.name.errors.required">Không được để trống trường này</span>
+                    <span *ngIf="productForm.controls.name.errors.pattern">Tên không hợp lệ</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+            
+            <div fxLayout="row wrap">
+                <mat-form-field appearance="standard" fxFlex>
+                    <mat-label>Giá bán</mat-label>
+                    <input matInput formControlName="price" required="">
+                    <mat-error *ngIf="productForm.controls.price.touched && productForm.controls.price.invalid">
+                        <span *ngIf="productForm.controls.price.errors.required">Không được để trống trường này</span>
+                    </mat-error>
+                </mat-form-field>
+
+            <mat-label-field appearance="standard" fxFlex>
+                <mat-label>Danh mục</mat-label>
+                <mat-select formControlName="categoryId">
+                    <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+                </mat-select>
+            </mat-label-field>
+        </div>
+
+            <div fxLayout="row wrap">
+            <mat-form-field appearance="standard" fxFlex>
+                <mat-label>Mô tả</mat-label>
+                <input matInput formControlName="description" required="">
+                <mat-error *ngIf="productForm.controls.description.touched && productForm.controls.description.invalid">
+                    <span *ngIf="productForm.controls.description.errors.required">Không được để trống trường này</span>
+                </mat-error>
+            </mat-form-field>
+        </div>
+            
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button type="submit" (click)="handleSubmit()" [disabled]="!productForm.valid">
+        <mat-icon>send</mat-icon>
+    </button>
+    <button mat-dialog-close="" mat-raised-button>
+        Đóng
+    </button>
+</mat-dialog-actions>

@@ -71,13 +71,9 @@ public class ProductServiceImpl implements ProductService {
                 if (validateProductMap(request) && request.containsKey("id")){
                     Optional<Product> product = productRepository.findById(Integer.parseInt(request.get("id")));
                     if(!product.isEmpty()){
-                        Product newProduct = getProductFromMap(request);
-                        product.get().setName(newProduct.getName());
-                        product.get().setPrice(newProduct.getPrice());
-                        product.get().setDescription(newProduct.getDescription());
-                        product.get().setCategory(newProduct.getCategory());
-                        if(request.containsKey("status")) product.get().setStatus(request.get("status"));
-                        productRepository.save(product.get());
+                        productRepository.updateProduct(Integer.parseInt(request.get("id")), request.get("name"),
+                                request.get("description")
+                        , Long.parseLong(request.get("price")), Integer.parseInt(request.get("categoryId")));
                         return CafeResponse.getResponseEntity("Update product successfully!", HttpStatus.OK);
                     }
                     return CafeResponse.getResponseEntity("This product does not existing!", HttpStatus.NOT_FOUND);

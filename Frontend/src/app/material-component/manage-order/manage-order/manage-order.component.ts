@@ -102,27 +102,27 @@ export class ManageOrderComponent implements OnInit {
     })
   }
 
-  setQuantity(){
+  setQuantity(value: any){
     var temp = this.orderForm.controls['quantity'].value;
     if(temp > 0){
-      this.orderForm.controls['total'].setValue(this.orderForm.controls['price'].value* this.orderForm.controls['quantity']);
+      this.orderForm.controls['total'].setValue(this.orderForm.controls['price'].value* this.orderForm.controls['quantity'].value);
     }
     else if(temp != ''){
       this.orderForm.controls['quantity'].setValue('1');
-      this.orderForm.controls['total'].setValue(this.orderForm.controls['price'].value* this.orderForm.controls['quantity']);
+      this.orderForm.controls['total'].setValue(this.orderForm.controls['price'].value* this.orderForm.controls['quantity'].value);
     }
   }
 
   validateAdd(){
-    if(this.orderForm.controls['total'] === 0 || this.orderForm.controls['total'] === null || this.orderForm.controls['quantity'] <= 0){
+    if(this.orderForm.controls['total'].value === 0 || this.orderForm.controls['total'].value === null || this.orderForm.controls['quantity'].value <= 0){
       return true;
     }
     else return false;
   }
 
   validateSubmit(){
-    if(this.totalAmount === 0 || this.orderForm.controls['name'] === null || this.orderForm.controls['email'] === null ||
-       this.orderForm.controls['contactNumber'] === null || this.orderForm.controls['paymentMethod'] === null){
+    if(this.totalAmount === 0 || this.orderForm.controls['name'].value === null || this.orderForm.controls['email'].value === null ||
+       this.orderForm.controls['contactNumber'].value === null || this.orderForm.controls['paymentMethod'].value === null){
         return true;
        }
        else return false;
@@ -133,7 +133,7 @@ export class ManageOrderComponent implements OnInit {
     var productName = this.dataSource.find((e:{id:number}) => e.id=== formData.product.id);
     if(productName === undefined){
       this.totalAmount+= formData.total;
-      formData.push({id:formData.product.id, name:formData.product.name, category:formData.category.name, quantity:formData.quantity,
+      this.dataSource.push({id:formData.product.id, name:formData.product.name, category:formData.category.name, quantity:formData.quantity,
         price:formData.price, total:formData.total
       })
       this.dataSource = [...this.dataSource];
@@ -157,7 +157,7 @@ export class ManageOrderComponent implements OnInit {
       email: formData.email,
       contactNumber: formData.contactNumber,
       paymentMethod: formData.paymentMethod,
-      totalAmount: formData.totalAmount.toString(),
+      totalAmount: this.totalAmount.toString(),
       productDetails: JSON.stringify(formData.dataSource)
 
     }
@@ -168,6 +168,7 @@ export class ManageOrderComponent implements OnInit {
       this.orderForm.reset();
       this.totalAmount = 0;
     },(error)=>{
+      this.ngxLoader.stop();
       console.log(error)
       if(error.error?.message){
         this.responseMessage = error.error?.message

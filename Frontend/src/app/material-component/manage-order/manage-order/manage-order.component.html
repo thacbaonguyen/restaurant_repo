@@ -1,1 +1,149 @@
-<p>manage-order works!</p>
+<mat-card style="padding-bottom: 20px;">
+    <b><span>Manage order</span></b>
+    <button mat-flat-button style="float: 'right'" [disabled]="validateSubmit()" (click)="submit()">
+        Add new <mat-icon>send</mat-icon> 
+    </button>
+</mat-card>
+<hr>
+
+<mat-card>
+    <b><span>Customer</span></b>
+    <form [formGroup]="orderForm">
+        <div fxFlex fxLayout="column">
+            <div fxLayout="row wrap">
+                <mat-form-field appearance="standard" fxFlex>
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" required>
+                    <mat-error *ngIf="orderForm.controls.name.touched && orderForm.controls.name.invalid">
+                        <span *ngIf="orderForm.controls.name.errors.required">Không được để trống</span>
+                        <span *ngIf="orderForm.controls.name.errors.pattern">Tên chưa đúng định dạng</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex style="margin-left: 10px;">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-error *ngIf="orderForm.controls.email.touched && orderForm.controls.email.invalid">
+                        <span *ngIf="orderForm.controls.email.errors.required">Không được để trống</span>
+                        <span *ngIf="orderForm.controls.email.errors.pattern">Email chưa đúng định dạng</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex style="margin-left: 10px;">
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="contactNumber" required>
+                    <mat-error *ngIf="orderForm.controls.contactNumber.touched && orderForm.controls.contactNumber.invalid">
+                        <span *ngIf="orderForm.controls.contactNumber.errors.required">Không được để trống</span>
+                        <span *ngIf="orderForm.controls.contactNumber.errors.pattern">SDT chưa đúng định dạng</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex style="margin-left: 10px;">
+                    <mat-label>Payment</mat-label>
+                    <mat-select formControlName="paymentMethod">
+                        <mat-option value="Tiền mặt">Tiền mặt</mat-option>
+                        <mat-option value="Thanh toán online">Thanh toán online</mat-option>
+                        <mat-option value="Quẹt thẻ">Quẹt thẻ</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="orderForm.controls.paymentMethod.touched && orderForm.controls.paymentMethod.invalid">
+                        <span *ngIf="orderForm.controls.paymentMethod.errors.required">Không được để trống</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+        </div>
+    </form>
+</mat-card>
+<hr>
+<mat-card>
+    <form [formGroup]="orderForm">
+        <div fxFlex fxLayout="column">
+            <div fxLayout="row wrap">
+                <mat-form-field appearance="standard" fxFlex>
+                    <mat-label>Category</mat-label>
+                    <mat-select formControlName="category" (selectionChange)="getProductByCategory($event.value)">
+                        <mat-option  *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex style="margin-left: 10px;">
+                    <mat-label>Product</mat-label>
+                    <mat-select formControlName="product" (selectionChange)="getProductById($event.value)">
+                        <mat-option  *ngFor="let product of products" [value]="product">{{product.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex style="margin-left: 10px;">
+                    <mat-label>Price</mat-label>
+                    <input matInput formControlName="price" required readonly="">
+                    <mat-error *ngIf="orderForm.controls.price.touched && orderForm.controls.price.invalid">
+                        <span *ngIf="orderForm.controls.price.errors.required">Không được để trống</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex style="margin-left: 10px;">
+                    <mat-label>Quantity</mat-label>
+                    <input matInput formControlName="quantity" required (keyup)="setQuantity($event)" #input>
+                    <mat-error *ngIf="orderForm.controls.quantity.touched && orderForm.controls.quantity.invalid">
+                        <span *ngIf="orderForm.controls.quantity.errors.required">Không được để trống</span>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex fxFlex style="margin-left: 10px;">
+                    <mat-label>Total</mat-label>
+                    <input matInput formControlName="total" required >
+                    <mat-error *ngIf="orderForm.controls.total.touched && orderForm.controls.total.invalid">
+                        <span *ngIf="orderForm.controls.total.errors.required">Không được để trống</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+    <div>
+        <button mat-flat-button [disabled]="validateAdd()" (click)="add()" color="primary" style="margin-top: 10px;">Add</button>
+        <button mat-flat-button color="primary" style="float: 'right'">
+            <mat-icon>monetization_on</mat-icon> {{totalAmount}}
+        </button>
+    </div>
+</mat-card>
+
+<hr>
+<div>
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef="">Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef="">Category</th>
+            <td mat-cell *matCellDef="let element">{{element.category}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef="">Price</th>
+            <td mat-cell *matCellDef="let element">{{element.price}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef="">Quantity</th>
+            <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef="">Total</th>
+            <td mat-cell *matCellDef="let element">{{element.total}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef="">Edit</th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <button mat-icon-button color="primary" (click)="handleDelete(i, element)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayColumn; stickey:true"></tr>
+        <tr mat-row *matRowDef="let row; columns:displayColumn"></tr>
+    </table>
+</div>

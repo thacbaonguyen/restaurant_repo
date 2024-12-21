@@ -28,4 +28,12 @@ export class ProductService {
   updateStatus(data:any){
     return this.httpClient.put(this.url + "/product/updateStatus", data, {headers: new HttpHeaders().set('Content-Type', 'application/json')})
   }
+  
+  getProductByCategory(id: any){
+    return this.httpClient.get(this.url + "/product/get-by-category/" + id, );
+  }
+
+  getProductById(id: any){
+    return this.httpClient.get(this.url + "/product/" + id);
+  }
 }

@@ -557,5 +557,24 @@ fieldset {
       padding: 0 100px 20px 20px;
     }
   }
+  .container2{
+    margin: 100px 0 0 200px;
+    width: 70%;
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .container2 img{
+    width: 10%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    transition: all ease-in-out 0.5s;
+  }
+  .container2 img:hover{
+    width: 25%;
+  }
 
   

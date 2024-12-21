@@ -19,6 +19,8 @@ import { NgxUiLoaderConfig, NgxUiLoaderModule, SPINNER } from 'ngx-ui-loader';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptorInterceptor } from './services/interceptor/token-interceptor.interceptor';
+import { BillComponent } from './services/bill/bill/bill.component';
+import { RouterModule } from '@angular/router';
 
 const ngUxLoaderConfig: NgxUiLoaderConfig = {
   text: 'Chờ xíu, đang tải',
@@ -42,6 +44,7 @@ const ngUxLoaderConfig: NgxUiLoaderConfig = {
     SignupComponent,
     ForgotPasswordComponent,
     LoginComponent,
+    BillComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ const ngUxLoaderConfig: NgxUiLoaderConfig = {
     FlexLayoutModule,
     SharedModule,
     HttpClientModule,
+    RouterModule,
     NgxUiLoaderModule.forRoot(ngUxLoaderConfig),
   ],
   providers: [HttpClientModule,{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorInterceptor, multi:true}],

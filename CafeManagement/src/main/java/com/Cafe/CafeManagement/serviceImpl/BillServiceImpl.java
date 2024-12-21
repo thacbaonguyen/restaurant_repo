@@ -78,7 +78,7 @@ public class BillServiceImpl implements BillService {
                         + "Cafe choi cam on quy khach, see u later!");
                 document.add(footerParagraph);
                 document.close();
-                return new ResponseEntity<>("uuid: " + fileName, HttpStatus.OK);
+                return new ResponseEntity<>("{\"uuid\":\"" + fileName + "\"}", HttpStatus.OK);
             }
             return CafeResponse.getResponseEntity("Some field is required!", HttpStatus.BAD_REQUEST);
         }

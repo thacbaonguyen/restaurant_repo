@@ -68,9 +68,9 @@ export class ManageOrderComponent implements OnInit {
   getProductByCategory(value: any){
     this.productService.getProductByCategory(value.id).subscribe((reponse: any)=>{
       this.products = reponse;
-      this.orderForm.controls('price').setValue('');
-      this.orderForm.controls('quantity').setValue('');
-      this.orderForm.controls('price').setValue(0);
+      this.orderForm.controls['price'].setValue('');
+      this.orderForm.controls['quantity'].setValue('');
+      this.orderForm.controls['price'].setValue(0);
     },(error)=>{
       console.log(error)
       if(error.error?.message){
@@ -158,18 +158,20 @@ export class ManageOrderComponent implements OnInit {
       contactNumber: formData.contactNumber,
       paymentMethod: formData.paymentMethod,
       totalAmount: this.totalAmount.toString(),
-      productDetails: JSON.stringify(formData.dataSource)
+      productDetails: JSON.stringify(this.dataSource)
 
     }
+    console.log(data)
     this.ngxLoader.start();
     this.billService.generateReport(data).subscribe((response: any)=>{
+      console.log(response.uuid)
       this.downloadFile(response?.uuid);
       this.dataSource = [];
       this.orderForm.reset();
       this.totalAmount = 0;
     },(error)=>{
       this.ngxLoader.stop();
-      console.log(error)
+      console.log('logging err', error)
       if(error.error?.message){
         this.responseMessage = error.error?.message
       }

@@ -20,4 +20,8 @@ export class BillService {
   getPdf(data: any): Observable<Blob>{
     return this.httpClient.post(this.url + "/bill/getPdf", data, {responseType: 'blob'})
   }
+
+  deleteBill(id:any){
+    return this.httpClient.delete(this.url + "/bill/delete/" + id, {headers: new HttpHeaders().set('Content-Type', 'application/json')})
+  }
 }
